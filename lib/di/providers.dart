@@ -3,6 +3,7 @@ import 'package:provider/single_child_widget.dart';
 
 import '../repository/money_repository.dart';
 import '../viewmodel/home_viewmodel.dart';
+import '../viewmodel/monthly_money_viewmodel.dart';
 
 List<SingleChildWidget> globalProviders = [...independentModels, ...dependentModels, ...viewModels];
 
@@ -13,6 +14,11 @@ List<SingleChildWidget> dependentModels = [];
 List<SingleChildWidget> viewModels = [
   ChangeNotifierProvider<HomeViewModel>(
     create: (context) => HomeViewModel(
+      moneyRepository: context.read<MoneyRepository>(),
+    ),
+  ),
+  ChangeNotifierProvider<MonthlyMoneyViewModel>(
+    create: (context) => MonthlyMoneyViewModel(
       moneyRepository: context.read<MoneyRepository>(),
     ),
   ),

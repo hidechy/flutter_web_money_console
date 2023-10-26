@@ -57,4 +57,10 @@ class HomeViewModel extends ChangeNotifier {
     yearmonth = DateTime(ym.split('-')[0].toInt(), ym.split('-')[1].toInt() + 1).yyyymm;
     notifyListeners();
   }
+
+  ///
+  void setThisMonth({required String ym}) {
+    yearmonth = DateTime(ym.split('-')[0].toInt(), ym.split('-')[1].toInt()).yyyymm;
+    notifyListeners();
+  }
 }

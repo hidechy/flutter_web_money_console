@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:web_money_console/extensions/extensions.dart';
 
+import '../extensions/extensions.dart';
 import '../viewmodel/home_viewmodel.dart';
+import 'components/_money_dialog.dart';
+import 'components/monthly_list_alert.dart';
 
 // ignore: must_be_immutable
 class MenuScreen extends StatelessWidget {
@@ -49,6 +51,16 @@ class MenuScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 _getCalendar(
                   date: DateTime(model.yearmonth.split('-')[0].toInt(), model.yearmonth.split('-')[1].toInt()),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.black.withOpacity(0.4)),
+                  onPressed: () {
+                    homeViewModel.setThisMonth(ym: model.yearmonth);
+
+                    MoneyDialog(context: context, widget: const MonthlyListAlert());
+                  },
+                  child: const Text('Monthly List'),
                 ),
               ],
             ),

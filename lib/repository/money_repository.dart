@@ -9,35 +9,35 @@ import '../utility/utility.dart';
 class MoneyRepository {
   Utility utility = Utility();
 
+  Money money = Money(
+    date: DateTime.now(),
+    ym: '',
+    yen10000: '',
+    yen5000: '',
+    yen2000: '',
+    yen1000: '',
+    yen500: '',
+    yen100: '',
+    yen50: '',
+    yen10: '',
+    yen5: '',
+    yen1: '',
+    bankA: '',
+    bankB: '',
+    bankC: '',
+    bankD: '',
+    bankE: '',
+    payA: '',
+    payB: '',
+    payC: '',
+    payD: '',
+    payE: '',
+    sum: '',
+    currency: 0,
+  );
+
   ///
   Future<Money> getMoney({required DateTime date}) async {
-    var money = Money(
-      date: DateTime.now(),
-      ym: '',
-      yen10000: '',
-      yen5000: '',
-      yen2000: '',
-      yen1000: '',
-      yen500: '',
-      yen100: '',
-      yen50: '',
-      yen10: '',
-      yen5: '',
-      yen1: '',
-      bankA: '',
-      bankB: '',
-      bankC: '',
-      bankD: '',
-      bankE: '',
-      payA: '',
-      payB: '',
-      payC: '',
-      payD: '',
-      payE: '',
-      sum: '',
-      currency: 0,
-    );
-
     await HttpClient().post(
       path: APIPath.moneydl,
       body: {'date': date.yyyymmdd},
@@ -99,5 +99,51 @@ class MoneyRepository {
     });
 
     return money;
+  }
+
+  ///
+  Future<List<Money>> getMonthlyMoneyList({required String yearmonth}) async {
+    final moneyList = <Money>[];
+
+    await HttpClient().post(path: APIPath.getAllMoney).then((value) {
+      for (var i = 0; i < value['data']?.length; i++) {
+        final exData = value['data'][i].toString().split('|');
+
+        if (yearmonth == exData[1]) {
+          moneyList.add(
+            Money(
+              date: DateTime.parse('${exData[0]} 00:00:00'),
+              ym: exData[1],
+              yen10000: exData[2],
+              yen5000: exData[3],
+              yen2000: exData[4],
+              yen1000: exData[5],
+              yen500: exData[6],
+              yen100: exData[7],
+              yen50: exData[8],
+              yen10: exData[9],
+              yen5: exData[10],
+              yen1: exData[11],
+              bankA: exData[12],
+              bankB: exData[13],
+              bankC: exData[14],
+              bankD: exData[15],
+              bankE: exData[16],
+              payA: exData[17],
+              payB: exData[18],
+              payC: exData[19],
+              payD: exData[20],
+              payE: exData[21],
+              sum: '',
+              currency: 0,
+            ),
+          );
+        }
+      }
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+
+    return moneyList;
   }
 }

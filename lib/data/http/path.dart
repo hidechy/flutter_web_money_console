@@ -1,5 +1,6 @@
 enum APIPath {
   moneydl,
+  getAllMoney,
 }
 
 extension APIPathExtension on APIPath {
@@ -7,6 +8,8 @@ extension APIPathExtension on APIPath {
     switch (this) {
       case APIPath.moneydl:
         return 'moneydl';
+      case APIPath.getAllMoney:
+        return 'getAllMoney';
     }
   }
 }
